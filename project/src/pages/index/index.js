@@ -1,59 +1,111 @@
 
 import React, { useState } from 'react';
 import {
-    View, StyleSheet, Text, TouchableHighlight, Alert
+    View, Text, TouchableHighlight
 } from 'react-native';
 
+import style from './styles';
 
 
 const Index: () => React$Node = () => {
-    const [calc, setCalc] = useState(0);
+    const [calc, setCalc] = useState([""]);
+    const op = ['+', '-', 'x', '%', '÷'];
+    const [posCalc, setPosCalc] = useState(0);
+    console.log(calc);
+    function TouchableCal() {
+        //possivel solução também seria ao infez de fazer dois split [123,456] & [+],
+        // criar uma lista global ex:[123,+,456]
 
-    function padrao(props) {
+        return calc.map((cals, index) => (
+            <TouchableHighlight style={style.butTouch} key={index.toString()} onPress={() => calView()} >
+                <View style={style.butView} >
+                    <Text style={style.buttext} >{cals}</Text>
+                </View>
+            </TouchableHighlight>
+        ));
+    }
+    function calView() {
+        return null;
+    }
+    function arrayAddState(state, setState, valueAdd) {
 
-        if (props === "AC") {
+        const str = state;
+        str.push(valueAdd);
+        str.push("");
+        setState(str);
+    }
+    function isFindOp(arr1, arr2) {
 
-        } else if (props === "+/-") {
+        for (var i = 0; i < arr1.length; i++) {
 
-        } else if (props === "%") {
-
-        } else if (props === "÷") {
-
-        } else if (props === "x") {
-
-        } else if (props === "-") {
-
-        } else if (props === "+") {
-
-        } else if (props === "=") {
-
-        } else if (props === ".") {
-            setCalc(calc + ".");
-        } else if (props === "clean") {
-            setCalc("");
-        } else {
-            setCalc(calc + props);
+            for (var j = 0; j < arr2.length; j++) {
+                if (arr1[i] === arr2[j]) {
+                    return true;
+                }
+            }
         }
+        return false;
+
+    }
+    function arrayAddStateEnds(state, setState, valueAdd) {
+
+        const str = state;
+        str.pop();
+        str.push(valueAdd);
+        setCalc(str);
+    }
+    function padrao(props) {
+        console.log(calc);
+        if (props.match(/\d+/g)) {
+            arrayAddStateEnds(calc, setCalc, calc[calc.length - 1] + props);
+            // let aux = calc;
+            // let valr = aux.pop();
+            // console.log(calc);
+            // aux.push(valr + props);
+            // setCalc(aux);
+            //setCalc((calc + props)); manipulação de string
+
+
+        } else if (calc !== "") {
+            setPosCalc(posCalc + 1);
+
+            if (props === "AC") {
+
+            } else if (props === "clean") {
+                setCalc("");
+            } else if (props === "=") {
+
+            } else if (props === "+/-") {
+
+            } else if (props === ".") {
+                if (!calc.includes('.')) { setCalc("."); }
+
+            } else if (!isFindOp(calc.slice(-2), op)) {
+                // (!calc.includes(props, (calc.length - 1))) && (!calc.includes(props, (calc.length - 2)))
+
+                arrayAddState(calc, setCalc, props);
+            }
+        }
+
+
 
     };
 
     function TouchableCustom(props) {
 
-        return (
-
-            <TouchableHighlight style={style.buttonContainer} underlayColor="#333" onPress={() => padrao(props.name)}>
-                <View style={style.button}>
-                    <Text style={style.text} >{props.name}</Text>
-                </View>
-            </TouchableHighlight>
-
-        );
+        return (<TouchableHighlight style={style.buttonContainer} underlayColor="#333" onPress={() => padrao(props.name)}>
+            <View style={style.button}>
+                <Text style={style.text} >{props.name}</Text>
+            </View>
+        </TouchableHighlight>);
     };
+
+
     return (
         <View style={style.winView}>
 
             <View style={style.resultView}>
-                <Text style={style.resultText}>{calc}</Text>
+                <TouchableCal />
             </View>
 
             <View style={style.boxButton}>
@@ -107,64 +159,11 @@ const Index: () => React$Node = () => {
 
                     <TouchableCustom name="." />
 
-                    <TouchableCustom name="=" />
+                    <TouchableCustom name="=" style={style.equals} />
                 </View>
             </View>
 
         </View>
     );
 };
-const style = StyleSheet.create({
-
-    buttonContainer: {
-
-        width: 70,
-        height: 70,
-        backgroundColor: "#444",
-        marginTop: 5,
-        marginLeft: 5,
-    },
-    button: {
-        borderRadius: 16,
-
-        flex: 1,
-        backgroundColor: '#222',
-        justifyContent: "center",
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 24,
-        color: '#fff'
-    },
-
-
-    resultView: {
-        alignItems: 'center',
-        backgroundColor: '#888'
-    },
-    resultText: {
-        color: '#fff',
-        fontSize: 24,
-        height: ("40%"),
-        width: ("100%")
-    },
-    winView: {
-        height: ("100%"),
-        width: ("100%")
-    },
-    rowButton: {
-        margin: 0,
-        padding: 0,
-        flexDirection: 'row',
-
-    },
-    boxButton: {
-        alignItems: 'center',
-        flexDirection: 'column',
-        paddingBottom: 5,
-        backgroundColor: '#444',
-        borderTopStartRadius: 16,
-        borderTopEndRadius: 16,
-    }
-});
 export default Index;
