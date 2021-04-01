@@ -6,11 +6,9 @@ import {
 
 import style from './styles';
 
-
-const Index: () => React$Node = () => {
+export default function Index() {
     const [calc, setCalc] = useState([""]);
     const op = ['+', '-', 'x', '%', '÷'];
-    const [posCalc, setPosCalc] = useState(0);
     console.log(calc);
     function TouchableCal() {
         //possivel solução também seria ao infez de fazer dois split [123,456] & [+],
@@ -28,11 +26,10 @@ const Index: () => React$Node = () => {
         return null;
     }
     function arrayAddState(state, setState, valueAdd) {
-
-        const str = state;
-        str.push(valueAdd);
-        str.push("");
-        setState(str);
+        let arraycopy = state.slice();
+        arraycopy.push(valueAdd);
+        arraycopy.push("");
+        setState(arraycopy);
     }
     function isFindOp(arr1, arr2) {
 
@@ -47,32 +44,20 @@ const Index: () => React$Node = () => {
         return false;
 
     }
-    function arrayAddStateEnds(state, setState, valueAdd) {
-
-        const str = state;
-        str.pop();
-        str.push(valueAdd);
-        setCalc(str);
-    }
     function padrao(props) {
-        console.log(calc);
+        let arraycopy = calc.slice();
         if (props.match(/\d+/g)) {
-            arrayAddStateEnds(calc, setCalc, calc[calc.length - 1] + props);
-            // let aux = calc;
-            // let valr = aux.pop();
-            // console.log(calc);
-            // aux.push(valr + props);
-            // setCalc(aux);
+            arraycopy.pop();
+            arraycopy.push(calc[calc.length - 1] + props);
+            setCalc(arraycopy);
             //setCalc((calc + props)); manipulação de string
 
-
         } else if (calc !== "") {
-            setPosCalc(posCalc + 1);
 
             if (props === "AC") {
 
             } else if (props === "clean") {
-                setCalc("");
+                setCalc([""]);
             } else if (props === "=") {
 
             } else if (props === "+/-") {
@@ -81,8 +66,6 @@ const Index: () => React$Node = () => {
                 if (!calc.includes('.')) { setCalc("."); }
 
             } else if (!isFindOp(calc.slice(-2), op)) {
-                // (!calc.includes(props, (calc.length - 1))) && (!calc.includes(props, (calc.length - 2)))
-
                 arrayAddState(calc, setCalc, props);
             }
         }
@@ -166,4 +149,3 @@ const Index: () => React$Node = () => {
         </View>
     );
 };
-export default Index;
