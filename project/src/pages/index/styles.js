@@ -22,13 +22,18 @@ export default StyleSheet.create({
         fontSize: 24,
         color: '#fff'
     },
-
-
-    resultView: {
-        alignItems: 'center',
-        backgroundColor: '#888',
-        height: ("40%"),
-        width: ("100%")
+    resultsty: {
+        flex: 1 / 6,
+        flexDirection: 'row',
+        backgroundColor: '#888'
+    },
+    resultcontainer: {
+        flex: 1,
+        flexDirection: 'column-reverse',
+        backgroundColor: '#777'
+    },
+    butTouch: {
+        height: 36,
     },
     resultText: {
         color: '#fff',
@@ -54,7 +59,7 @@ export default StyleSheet.create({
         borderTopEndRadius: 16,
     },
     buttext: {
-        fontSize: 36,
+        fontSize: 24,
     },
 
 })
