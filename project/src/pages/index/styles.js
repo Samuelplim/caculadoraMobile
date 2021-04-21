@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-
+    switchView: {
+        backgroundColor: '#777',
+        flex: 1,
+        alignItems: 'center',
+    },
     buttonContainer: {
 
         width: 70,
@@ -15,7 +19,7 @@ export default StyleSheet.create({
 
         flex: 1,
         backgroundColor: '#222',
-        justifyContent: "center",
+        justifyContent: 'center',
         alignItems: 'center',
     },
     text: {

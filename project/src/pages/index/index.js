@@ -1,12 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, TouchableHighlight
+    View, Text, TouchableHighlight, Switch
 } from 'react-native';
 
 import style from './styles';
 
 export default function Index() {
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const [calc, setCalc] = useState([""]);
     const [result, setresult] = useState(0);
     const op = ['+', '-', 'x', '%', '÷'];
@@ -14,6 +16,7 @@ export default function Index() {
 
         estimate();
     }, [calc]);//useEffect recebe dois parametros o segundo fica sendo observado [calc] e quando ele muda dispara o primeiro parametro.
+
     console.log(calc);
     console.log(result);
 
@@ -27,7 +30,6 @@ export default function Index() {
             </TouchableHighlight>
         ));
     };
-
     function TouchableCustom(props) {
 
         return (<TouchableHighlight style={style.buttonContainer} underlayColor="#333" onPress={() => padrao(props.name)}>
@@ -36,7 +38,6 @@ export default function Index() {
             </View>
         </TouchableHighlight>);
     };
-
     function calView() {
         return null;
     };
@@ -67,7 +68,6 @@ export default function Index() {
 
         }
     };
-
     function padrao(props) {
         let arraycopy = calc.slice();
         if (props.match(/\d+/g)) {
@@ -117,8 +117,17 @@ export default function Index() {
     };
     return (
         <View style={style.winView}>
-
+            <View style={style.switchView}>
+                <Switch
+                    trackColor={{ false: '#fff', true: '#81b0ff' }}
+                    thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                    ios_backgroundColor='#3e3e3e'
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                />
+            </View >
             <View style={style.resultcontainer}>
+
                 <View style={style.resultsty}>
                     <TouchableCal />
                 </View>
